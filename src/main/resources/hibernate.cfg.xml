@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/hbtest2</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password"></property>
+
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!-- JDBC connection pool (use the built-in) -->
+        <!--<property name="connection.pool_size">1</property>-->
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <!--<property name="current_session_context_class">thread</property>-->
+
+        <!-- Disable the second-level cache  -->
+        <!--<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>-->
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!--<property name="hbm2ddl.auto">create</property>-->
+        <property name="hbm2ddl.auto">create</property>
+
+
+        <!--<property name="hibernate.c3p0.min_size">5</property>-->
+        <!--<property name="hibernate.c3p0.max_size">20</property>-->
+        <!--<property name="hibernate.c3p0.timeout">300</property>-->
+        <!--<property name="hibernate.c3p0.max_statements">50</property>-->
+        <!--<property name="hibernate.c3p0.idle_test_period">3000</property>-->
+
+        <mapping class="hibernate.basic.Employee1"/>
+
+        <!--<mapping class="hibernate.one_to_one.using_generator.Txn2"/>-->
+        <!--<mapping class="hibernate.one_to_one.using_generator.Customer2"/>-->
+
+
+        <!--<mapping class="hibernate.one_to_one.Customer1" />-->
+        <!--<mapping class="hibernate.one_to_one.Txn1" />-->
+        <!--<mapping class="hibernate.one_to_one.using_mapped_by.CustomerM" />-->
+        <!--<mapping class="hibernate.one_to_one.using_mapped_by.TxnM" />-->
+        <!---->
+        <!--<mapping class="hibernate.one_to_many.one_to_many_unidirectional.CartUni"/>-->
+        <!--<mapping class="hibernate.one_to_many.one_to_many_unidirectional.ItemUni"/>-->
+        <mapping class="hibernate.one_to_many.one_many_uni_other.Cart"/>
+        <mapping class="hibernate.one_to_many.one_many_uni_other.Item"/>
+
+        <!--<mapping class="hibernate.one_to_many.one_to_many_uni_single.Cart2_O_M_S" />-->
+        <!--<mapping class="hibernate.one_to_many.one_to_many_uni_single.Item2_O_M_S" />-->
+
+        <!--<mapping class="hibernate.one_to_many.one_to_many_bi_other.CartBi"/>-->
+        <!--<mapping class="hibernate.one_to_many.one_to_many_bi_other.ItemBi"/>-->
+
+        <!--<mapping class="hibernate.one_to_many.Item1" />-->
+        <!--<mapping class="hibernate.one_to_many.Cart1" />-->
+        <!---->
+        <!--<mapping class="hibernate.many_to_many.Cart2" />-->
+        <!--<mapping class="hibernate.many_to_many.Item2" />-->
+        <!-- -->
+
+        <!--<mapping class="hibernate.hql.Employee2" />-->
+        <!--<mapping class="hibernate.hql.Address2" />-->
+        <!--<mapping class="hibernate.hibernate_save_update.EmployeEntity"/>-->
+
+
+    </session-factory>
+</hibernate-configuration>

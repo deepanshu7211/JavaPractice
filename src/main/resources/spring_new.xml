@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+>
+
+    <bean id="student" class="spr.Student">
+        <property name="name" value="deep"/>
+    </bean>
+
+    <bean id="employee" class="spr.depen_by_const.Employee">
+        <constructor-arg value="10" type="int"></constructor-arg>
+        <constructor-arg value="deep" type="java.lang.String"></constructor-arg>
+    </bean>
+
+    <bean id="a1" class=" spr.depen_by_const.Address">
+        <constructor-arg name="city" value="agra"></constructor-arg>
+        <constructor-arg name="state" value="up"></constructor-arg>
+        <constructor-arg name="country" value="india"></constructor-arg>
+    </bean>
+
+    <bean id="e" class=" spr.depen_by_const.Emp">
+        <constructor-arg name="id" value="1" type="int"></constructor-arg>
+        <constructor-arg name="name" value="deep" type="java.lang.String"></constructor-arg>
+        <constructor-arg ref="a1"></constructor-arg>
+
+    </bean>
+
+    <!-- For collections-->
+    <bean id="q" class=" spr.depen_by_const.Question">
+        <constructor-arg name="id" value="1" type="int"></constructor-arg>
+        <constructor-arg name="name" value="deep" type="java.lang.String"></constructor-arg>
+        <constructor-arg>
+            <list>
+                <value>Java is a programming language</value>
+                <value>Java is a Platform</value>
+                <value>Java is an Island of Indonasia</value>
+            </list>
+        </constructor-arg>
+
+    </bean>
+
+
+    <bean id="ans1" class=" spr.depen_by_const.Answers">
+        <constructor-arg name="id" value="1"></constructor-arg>
+        <constructor-arg name="name" value="name"></constructor-arg>
+    </bean>
+
+    <bean id="ans2" class=" spr.depen_by_const.Answers">
+        <constructor-arg name="id" value="2"></constructor-arg>
+        <constructor-arg name="name" value="name2"></constructor-arg>
+    </bean>
+
+    <bean id="q1" class=" spr.depen_by_const.Ques">
+        <constructor-arg name="id" value="1"></constructor-arg>
+        <constructor-arg name="name" value="deep"></constructor-arg>
+        <constructor-arg>
+            <list>
+                <ref bean="ans1"/>
+                <ref bean="ans2"/>
+            </list>
+        </constructor-arg>
+
+    </bean>
+
+    <bean id="emp1" class=" spr.depen_by_setter.Emp">
+        <property name="id" value="1"/>
+        <property name="name" value="deep"/>
+        <property name="city" value="agra"/>
+        <property name="add" ref="add1"/>
+
+    </bean>
+    <bean id="add1" class=" spr.depen_by_setter.Add">
+        <property name="city" value="agra"/>
+        <property name="state" value="up"/>
+
+    </bean>
+
+    <bean id="b" class=" spr.auto_wire.B"></bean>
+    <bean id="b1" class=" spr.auto_wire.B"></bean>
+    <bean id="a" class=" spr.auto_wire.A" autowire="byName"></bean>
+
+    <!-- For AOP-->
+    <aop:aspectj-autoproxy/>
+    <bean id="op" class=" spr.aop.Operation"></bean>
+    <bean id="aspect" class=" spr.aop.TrackOperation"></bean>
+
+    <aop:config>
+        <aop:aspect id="myaspect" ref="aspect">
+            <!-- For before-->
+            <aop:pointcut id="pointCutBefore" expression="execution(*  spr.aop.Operation.*(..))"/>
+            <aop:after method="myadvice" pointcut-ref="pointCutBefore"/>
+
+        </aop:aspect>
+    </aop:config>
+
+    <!-- For JDBC Template -->
+    <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/hbtest2"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+
+    </bean>
+
+    <bean id="jdbcTemplete" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="ds"></property>
+    </bean>
+
+    <bean id="edao" class=" spr.jdbc.EmployeeDao">
+        <property name="jdbcTemplate" ref="jdbcTemplete"/>
+
+    </bean>
+
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/hbtest2"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value=""></property>
+    </bean>
+
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>spr.hib.Employee</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--<tx:annotation-driven/>-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="template" class="org.springframework.orm.hibernate4.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="empdao" class=" spr.hib.EmployeeDao">
+        <property name="hibernateTemplate" ref="template"></property>
+    </bean>
+
+    <!--<bean id="empdao" class=" spr.hib.EmployeeDao">-->
+    <!--<property name="sessionFactory" ref="mysessionFactory"></property>-->
+    <!--</bean>-->
+</beans>
