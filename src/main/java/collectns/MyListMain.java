@@ -37,6 +37,17 @@ class MyList<E> {
         }
         elements[size++] = e;
     }
+    
+    public void remove(int index)
+    {
+        Object temp = elements[index];
+        for(int i = index; i <size;i++)
+        {
+            elements[i]=elements[i+1];
+        }
+
+        elements[--size] = null;
+    }
 
     private void increasesize() {
         int newsize = elements.length * 2;
