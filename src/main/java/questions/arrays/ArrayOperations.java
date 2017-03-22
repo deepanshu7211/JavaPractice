@@ -13,6 +13,7 @@ public class ArrayOperations {
 //        rotateArray();
 //          kthlargest();
 //         maxNumber();
+        largest_sum_contigous_subarray();
     }
 
     private static void maxNumber() {
@@ -107,5 +108,20 @@ public class ArrayOperations {
         Arrays.sort(arr);
         int k = 2;
         System.out.println("kth highest  " + arr[arr.length - 1 - k]);
+    }
+
+    private static void largest_sum_contigous_subarray()
+    {
+        int [] a = {-2, -3, 4, -1, -2, 1, 5, -3};
+        int max =Integer.MIN_VALUE,max_end=0;
+        for(int i=0;i<a.length;i++)
+        {
+            max_end = max_end + a[i];
+            if(max_end<0)
+                max_end=0;
+            if(max<max_end)
+                max = max_end;
+        }
+        System.out.println("max sub array :: " + max);
     }
 }

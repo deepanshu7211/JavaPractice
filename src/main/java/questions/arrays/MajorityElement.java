@@ -31,6 +31,29 @@ public class MajorityElement {
             if (val == maj)
                 System.out.println(" maj element is : " + entry.getKey());
         }
+
+        morreVotingAlgo();
+    }
+
+    public static void morreVotingAlgo()
+    {
+        int maj=0;int count =1;
+        for(int i =0;i<arr.length;i++)
+        {
+            if(arr[maj] == arr[i])
+            {
+                count++;
+            }
+            else {
+                count--;
+            }
+            if(count==0)
+            {
+                maj =i;
+                count = 1;
+            }
+        }
+        System.out.println(arr[maj]);
     }
 
 }
